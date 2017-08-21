@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+#main {
+  width: 400px;
+  height: 600px;
+  margin: auto;
+  overflow-y: hidden;
+  border: solid black 1px;
+}
+
+#game-wrapper {
+  transition: 200ms all ease-in-out;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.block {
+  background: white;
+  color: white;
+  text-align: center;
+  height: 150px;
+  border: solid black 1px;
+}
+
+.selected {
+  background: black;
+}
