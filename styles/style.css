@@ -11,7 +11,7 @@
 }
 
 #game-wrapper {
-  transition: 200ms all ease-in-out;
+  transition: 100ms all ease-in-out;
 }
 
 .grid {
