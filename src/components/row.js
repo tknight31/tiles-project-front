@@ -19,7 +19,6 @@ const Row = (function createRowClass() {
     }
 
     generateNotes() {
-      // let randNum = Math.round(Math.random() * 3)
       let row = this.notes.map((e, i) => {
         if (i == this.num) {
           return `<div class="block selected">${e}</div>`
@@ -29,6 +28,10 @@ const Row = (function createRowClass() {
       }).join("")
 
       return row
+    }
+
+    static resetCounter(){
+      id = 0
     }
 
 
