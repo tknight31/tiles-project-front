@@ -3,16 +3,27 @@
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="src/components/note.js"></script>
+    <script type="text/javascript" src="src/components/game.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
     <link rel="stylesheet" href="styles/style.css">
     <title>Piano Tiles</title>
   </head>
   <body>
     <div id="main">
+      <div id="timer">
+        0.000
+      </div>
 
       <div id="game-wrapper">
         <!-- rows -->
       </div>
+      <div id="game-menu">
+        <h1>Piano Tiles</h1>
+        <button data-action="start-game">Start Game</button>
+        <button data-action="high-scores">High Scores</button>
+      </div>
+      <div id="win-game"></div>
+      <div id="lose-game"></div>
 
     </div>
 

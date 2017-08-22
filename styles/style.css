@@ -2,16 +2,54 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: sans-serif;
+}
+
 #main {
   width: 400px;
   height: 600px;
   margin: auto;
   overflow-y: hidden;
   border: solid black 1px;
+  position: relative;
 }
 
 #game-wrapper {
   transition: 100ms all ease-in-out;
+}
+
+#game-menu, .end-game {
+  position: absolute;
+  z-index: 11;
+  background-color: black;
+  width: 100%;
+  height: 600px;
+  top: 0;
+  text-align: center;
+  transition: 200ms all ease-in-out;
+}
+
+#game-menu h1 {
+  color: white;
+  font-size: 2.2em;
+  margin-top:250px;
+}
+
+#game-menu button {
+
+  font-size: 1.8em;
+}
+
+#timer {
+  position: absolute;
+  z-index: 10;
+  font-size: 2em;
+  margin: 10px auto;
+  left: 0;
+  right: 0;
+  color: red;
+  text-align: center;
 }
 
 .grid {
@@ -25,6 +63,8 @@
   text-align: center;
   height: 150px;
   border: solid black 1px;
+  font-size: 1.7em;
+  padding-top: 55px;
 }
 
 .selected {
