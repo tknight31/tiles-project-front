@@ -4,11 +4,12 @@ const Row = (function createRowClass() {
 
   return class Row {
 
-    constructor() {
+    constructor(note) {
       this.id = ++id
       this.notes = ["A", "S", "D", "F"]
       this.num = Math.round(Math.random() * 3)
       this.selected = (this.notes[this.num]).toLowerCase()
+      this.sound = note + '.wav'
     }
 
 
@@ -33,6 +34,12 @@ const Row = (function createRowClass() {
     static resetCounter(){
       id = 0
     }
+
+    playSound() {
+        var nowAudio = new Audio
+        nowAudio.src = `./src/audio/${this.sound}`
+        nowAudio.play()
+  }
 
 
   }

@@ -13,4 +13,12 @@ class UsersAdapter {
     return fetch(this.baseURL, userParams).then(res => res.json())
   }
 
+  getHighScores(){
+    const highScores = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    }
+    return fetch(this.baseURL, highScores).then(res => res.json())
+  }
+
 }
