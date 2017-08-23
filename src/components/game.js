@@ -1,23 +1,27 @@
 class Game {
 
-  constructor() {
+  constructor(mode) {
     this.running = false
     this.currentRow = 1
     this.timeNow = 0
     this.gameWrapper = document.getElementById('game-wrapper')
     this.adapter = new UsersAdapter()
     this.song = new Song
-    this.song.generateRows()
+    this.mode = mode
+    this.song.generateRows(mode)
     this.gameWrapper.innerHTML = this.song.rows.slice().reverse().map(e => e.render()).join("")
-    this.keyHandler = this.checkKey.bind(this)
-    window.addEventListener('keydown', this.keyHandler)
+    // this.keyHandler = this.checkKey.bind(this)
+    // window.addEventListener('keydown', this.keyHandler)
     this.translateValue =  -150 * (this.song.rows.length-3)
     this.gameWrapper.style.transform = `translateY(${this.translateValue}px)`
+    this.start = null
+    this.speed = 4
   }
 
   static renderMenu() {
     return `<h1>Piano Tiles</h1>
-    <button data-action="start-game" class="menu-button">Start Game</button>
+    <button data-action="classic" class="menu-button">Classic</button>
+    <button data-action="arcade" class="menu-button">Arcade</button><br>
     <button data-action="high-scores" class="menu-button">High Scores</button>`
   }
 
@@ -33,6 +37,25 @@ class Game {
     document.getElementById('timer').innerHTML = `${(this.timeNow/1000).toFixed(3)}`
     window.requestAnimationFrame(this.timer.bind(this));
     }
+  }
+
+
+  moveBlocks(timestamp) {
+    if (this.running) {
+      if (!this.start) this.start = timestamp;
+      let progress = timestamp - this.start
+      this.translateValue += this.speed
+      this.gameWrapper.style.transform = `translateY(${this.translateValue}px)`
+      window.requestAnimationFrame(this.moveBlocks.bind(this))
+    }
+  }
+
+  incrementSpeed() {
+    this.setter = setInterval(function() { this.speed += 2; console.log('faster') }.bind(this), 4000)
+  }
+
+  renderScore() {
+    document.getElementById('timer').innerHTML = `${this.arcadeScore}`
   }
 
    winGame(){
@@ -62,7 +85,7 @@ class Game {
     let loseGameEl = document.getElementById('lose-game')
     let timerEl = document.getElementById('timer')
     loseGameEl.innerHTML = `<h1>You lost</h1>
-    <button data-action="start-game" class="menu-button">Start Game</button>
+    <button data-action="classic" class="menu-button">Play again</button>
     <button data-action="high-scores" class="menu-button">High Scores</button>`
     TweenMax.to(loseGameEl, .5, {autoAlpha: 1, ease: 'Power2'})
     TweenMax.to(timerEl, .6, {y: 100, color: 'white', fontSize: '3em', ease: 'Power2'})
@@ -97,6 +120,31 @@ class Game {
       TweenMax.to(activeBlock, .3, {backgroundColor: 'red', ease: 'Power2'})
       this.loseGame()
     }
+
+  }
+
+  checkInput(event) {
+    let currentKey = this.song.rows[this.currentRow-1]
+    let activeBlock = document.querySelector(`[data-row-id="${currentKey.id}"] .selected`)
+    if (event.key == currentKey.selected && currentKey.id == this.currentRow) {
+      if (this.running === false) {
+        this.incrementSpeed()
+        window.requestAnimationFrame(this.moveBlocks.bind(this))
+      }
+      if (this.currentRow === this.song.rows.length) {
+        this.winGame()
+      }
+        this.arcadeScore++
+        this.renderScore()
+        this.running = true
+        TweenMax.to(activeBlock, .3, {backgroundColor: 'green', ease: 'Power2'})
+        this.currentRow++
+      }
+      else {
+        clearInterval(this.setter)
+        TweenMax.to(activeBlock, .3, {backgroundColor: 'red', ease: 'Power2'})
+        this.loseGame()
+      }
 
   }
 

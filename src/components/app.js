@@ -2,20 +2,34 @@ class App {
 
 	static startGame(e){
 
-  		if (e.target.dataset.action === 'start-game'){
+  	if (e.target.dataset.action === 'classic'){
 			Game.resetClock()
 			Row.resetCounter()
-			let game = new Game
+			let game = new Game('classic')
+			game.keyHandler = game.checkKey.bind(game)
+			window.addEventListener('keydown', game.keyHandler)
 			game.fadeOutMenus()
-			}
+		}
+		else if (e.target.dataset.action === 'arcade'){
+			Game.resetClock()
+			Row.resetCounter()
+			let game = new Game('arcade')
+			game.arcadeScore = 0
+			game.keyHandler = game.checkInput.bind(game)
+			window.addEventListener('keydown', game.keyHandler)
+
+			game.fadeOutMenus()
+			// game.incrementSpeed()
+
+		}
 		else if (e.target.dataset.action === 'high-scores'){
 			App.fetchHighScores()
-		} 
+		}
 		else if (e.target.dataset.action === 'home-menu'){
 			document.getElementById('game-menu').innerHTML = Game.renderMenu
 
 		}
-    }
+	}
 
 	static fetchHighScores() {
 	    let adapter = new UsersAdapter()
