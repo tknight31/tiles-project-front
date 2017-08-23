@@ -1,38 +1,19 @@
-const Row = (function createRowClass() {
+class Note {
 
-  let id = 0
+	constructor(){
 
-  return class Row {
+	}
 
-    constructor() {
-      this.id = ++id
-      this.notes = ["A", "S", "D", "F"]
-      this.num = Math.round(Math.random() * 3)
-      this.selected = (this.notes[this.num]).toLowerCase()
-    }
-
-
-    render() {
-      return `
-      <div class="grid" data-row-id="${this.id}">${this.generateNotes()}</div>
-      `
-    }
-
-    generateNotes() {
-      // let randNum = Math.round(Math.random() * 3)
-      let row = this.notes.map((e, i) => {
-        if (i == this.num) {
-          return `<div class="block selected">${e}</div>`
-        } else {
-          return `<div class="block">${e}</div>`
-        }
-      }).join("")
-
-      return row
-    }
+	render(){
+		return `
+		<div class="grid" id="row-11">
+          <div class="block">A</div>
+          <div class="block selected">S</div>
+          <div class="block">D</div>
+          <div class="block">F</div>
+        </div>
+		`
+	}
 
 
-  }
-
-
-})()
+}

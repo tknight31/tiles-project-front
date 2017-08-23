@@ -2,16 +2,107 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+}
+
 #main {
   width: 400px;
   height: 600px;
   margin: auto;
   overflow-y: hidden;
   border: solid black 1px;
+  position: relative;
 }
 
 #game-wrapper {
   transition: 100ms all ease-in-out;
+}
+
+#game-menu, #lose-game, #win-game {
+  position: absolute;
+  z-index: 11;
+  background-color: #121212;
+  width: 100%;
+  height: 600px;
+  top: 0;
+  text-align: center;
+  transition: 200ms all ease-in-out;
+}
+
+#win-game {
+  background-color: green;
+}
+
+#lose-game {
+  background-color: #db3d3d;
+}
+
+#game-menu h1, #lose-game h1, #win-game h1  {
+  color: white;
+  font-size: 2.2em;
+  margin-top:250px;
+}
+
+#game-menu h1.highscores {
+  margin-top: 100px
+}
+
+#game-menu ol {
+  color: white;
+  font-size: 2em;
+  width: 65%;
+  margin: 24px auto;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+#high-scores-list li {
+  opacity: 0;
+  transform: translateY(30px);
+  font-weight: 100;
+}
+
+#high-scores-list li:nth-child(1){
+    color: gold;
+    font-size: 1.2em;
+}
+
+#high-scores-list li span{
+  font-weight: 700;
+}
+
+.menu-button {
+    font-size: 1.3em;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    margin: 6px;
+    text-transform: lowercase;
+    font-weight: 600;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    transition: 300ms all ease-in-out;
+}
+
+.menu-button:hover{
+  color: #121212;
+  background: white;
+}
+
+#timer {
+  position: absolute;
+  z-index: 10;
+  font-size: 2em;
+  margin: 10px auto;
+  left: 0;
+  right: 0;
+  color: red;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  /*text-shadow: 2px 2px 2px #b0b0b0;*/
 }
 
 .grid {
@@ -25,8 +116,20 @@
   text-align: center;
   height: 150px;
   border: solid black 1px;
+  font-size: 1.7em;
+  padding-top: 55px;
 }
 
 .selected {
   background: black;
+}
+
+#win-game, #lose-game {
+  opacity: 0;
+  z-index: 1;
+}
+
+#initialsInput{
+  text-transform: uppercase;
+  font-size: 2em;
 }
