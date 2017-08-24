@@ -23,17 +23,18 @@ class App {
 
 		}
 		else if (e.target.dataset.action === 'high-scores'){
-			App.fetchHighScores()
+			App.fetchHighScores('classic')
 		}
 		else if (e.target.dataset.action === 'home-menu'){
-			document.getElementById('game-menu').innerHTML = Game.renderMenu
-
+			let gameMenu = document.getElementById('game-menu')
+			gameMenu.innerHTML = Game.renderMenu()
+			TweenMax.to(gameMenu, .5, {autoAlpha:1})
 		}
 	}
 
-	static fetchHighScores() {
+	static fetchHighScores(mode) {
 	    let adapter = new UsersAdapter()
-	    adapter.getHighScores().then(highScoresJson => this.renderHighScores(highScoresJson))
+	    adapter.getHighScores(mode).then(highScoresJson => this.renderHighScores(highScoresJson))
 	}
 
 	static renderHighScores(json){

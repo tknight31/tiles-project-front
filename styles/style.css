@@ -122,6 +122,10 @@ body {
 
 .selected {
   background: black;
+  transition: 150ms all ease-in-out;
+}
+.correct {
+  background-color: green;
 }
 
 #win-game, #lose-game {
@@ -132,4 +136,8 @@ body {
 #initialsInput{
   text-transform: uppercase;
   font-size: 2em;
+  width: 42%;
+  text-align: center;
+  margin: 0px auto 10px;
+  border-radius: 8px;
 }
