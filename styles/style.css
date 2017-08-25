@@ -32,7 +32,7 @@ body {
 }
 
 #win-game {
-  background-color: green;
+  background-color: #78e678;
 }
 
 #lose-game {
@@ -125,7 +125,7 @@ body {
   transition: 150ms all ease-in-out;
 }
 .correct {
-  background-color: green;
+  background-color: #78e678;
 }
 
 #win-game, #lose-game {

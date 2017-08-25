@@ -10,13 +10,12 @@ class Game {
     this.mode = mode
     this.song.generateRows(mode)
     this.gameWrapper.innerHTML = this.song.rows.slice().reverse().map(e => e.render()).join("")
-    // this.keyHandler = this.checkKey.bind(this)
-    // window.addEventListener('keydown', this.keyHandler)
     this.allSelectedBlocks = Array.prototype.slice.apply(document.querySelectorAll(".selected")).reverse()
     this.translateValue =  -150 * (this.song.rows.length-3)
     this.gameWrapper.style.transform = `translateY(${this.translateValue}px)`
     this.start = null
     this.speed = 4
+    this.copy = this.allSelectedBlocks.slice()
   }
 
   static renderMenu() {
@@ -43,8 +42,18 @@ class Game {
 
   moveBlocks(timestamp) {
     if (this.running) {
-      if (!this.start) this.start = timestamp;
-      let progress = timestamp - this.start
+      let nextBlock = this.copy[0]
+      // if (nextBlock.classList.contains('correct')) {
+      //   this.copy.shift()
+      // }
+      if (!nextBlock.classList.contains('correct')) {
+        if (nextBlock.getBoundingClientRect().top > 557) {
+          this.loseArcade()
+          clearInterval(this.setter)
+        }
+      }
+      // if (!this.start) this.start = timestamp;
+      // let progress = timestamp - this.start
       this.translateValue += this.speed
       this.gameWrapper.style.transform = `translate3d(0, ${this.translateValue}px, 0)`
       window.requestAnimationFrame(this.moveBlocks.bind(this))
@@ -138,7 +147,7 @@ class Game {
       this.translateValue += 150
       currentKey.playSound()
       this.gameWrapper.style.transform = `translateY(${this.translateValue}px)`
-      TweenMax.to(activeBlock, .3, {backgroundColor: 'green', ease: 'Power2'})
+      TweenMax.to(activeBlock, .15, {backgroundColor: '#78e678', ease: 'Power2'})
       if (this.currentRow === this.song.rows.length){
         this.winGame()
       }
@@ -150,10 +159,10 @@ class Game {
 
   }
 
+
   checkInput(event) {
     let currentKey = this.song.rows[this.currentRow-1]
     let activeBlock = this.allSelectedBlocks[this.currentRow-1]
-    //let activeBlock = document.querySelector(`[data-row-id="${currentKey.id}"] .selected`)
     if (event.key == currentKey.selected && currentKey.id == this.currentRow) {
       if (this.running === false) {
         this.incrementSpeed()
@@ -163,7 +172,7 @@ class Game {
         this.renderScore()
         this.running = true
         activeBlock.classList.add("correct")
-        //TweenMax.to(activeBlock, .3, {backgroundColor: 'green', ease: 'Power2'})
+        this.copy.shift()
         this.currentRow++
       }
       else {
