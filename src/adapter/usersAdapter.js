@@ -11,6 +11,7 @@ class UsersAdapter {
       body: JSON.stringify({ name: name, score: score, mode: mode })
     }
     return fetch(this.baseURL, userParams).then(res => res.json())
+
   }
 
   getHighScores(mode){

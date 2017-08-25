@@ -2,8 +2,8 @@ class Song {
 
   constructor(){
     this.rows = []
-    // Song Key: ['Itsy Bitsy Spider', 'Happy Birthday', 'Row Row Row Your Boat']
-    this.songSequences = [['g','c','c','c','d','e','e','e','d','c','d','e','c','e','e','f','g','g','f','e','f','g','e','c','c','d','e','e','d','c'],['a','a','b','a','d','c-','a','a','b','a','e','d','a','a','a','f-','d','c-','b','g','g','f-','d','e','d','a','a','b','a','d'],['d','d','d','e','f-','f-','e','f-','g','a','d','d','d','a','a','a','f-','f-','f-','d','d','d','a','g','f-','e','d','d','d','d']]
+    // Song Key: ['Happy Birthday', 'barney', 'twinkle', 'itsy-bitsy', 'row your boat']
+    this.songSequences = [['c', 'c', 'd', 'c', 'f', 'e', 'c', 'c', 'd', 'c', 'g', 'f', 'c', 'c', 'cc', 'a', 'f', 'e', 'd', 'a-', 'a-', 'a', 'f', 'g', 'f', 'c', 'c', 'd', 'c', 'f', 'e', 'c', 'c', 'd', 'c', 'g', 'f', 'c', 'c', 'cc', 'a', 'f', 'e', 'd', 'a-', 'a-', 'a', 'f', 'g', 'f'], ['g', 'e', 'g', 'g', 'e', 'g', 'a', 'g', 'f', 'e', 'd', 'e', 'f', 'e', 'f', 'g', 'c', 'c', 'c', 'c', 'c', 'd', 'e', 'f', 'g', 'g', 'd', 'd', 'f', 'e', 'd', 'c', 'g', 'e', 'g', 'g', 'e', 'g', 'a', 'g', 'f', 'e', 'd', 'e', 'f', 'e', 'f', 'g', 'c', 'c', 'c', 'c', 'c', 'd', 'e', 'f', 'g', 'g', 'd', 'd', 'f', 'e', 'd', 'c'], ['d', 'd', 'a', 'a', 'b', 'b', 'a', 'g', 'g', 'f-', 'f-', 'e', 'e', 'd', 'a', 'a', 'g', 'g', 'f-', 'f-', 'e', 'a', 'a', 'g', 'g', 'f-', 'f-', 'e', 'd', 'd', 'a', 'a', 'b', 'b', 'a', 'g', 'g', 'f-', 'f-', 'e', 'e', 'd'], ['c', 'f', 'f', 'f', 'g', 'a', 'a', 'a', 'g', 'f', 'g', 'a', 'f', 'a', 'a', 'a-', 'cc', 'cc', 'a-', 'a', 'a-', 'cc', 'a', 'f', 'f', 'g', 'a', 'a', 'g', 'f', 'g', 'a', 'f', 'c', 'f', 'f', 'f', 'g', 'a', 'a', 'a', 'g', 'f', 'g', 'a', 'f'], ['c', 'c', 'c', 'd', 'e', 'e', 'd', 'e', 'f', 'g', 'cc', 'cc', 'cc', 'g', 'g', 'g', 'e', 'e', 'e', 'c', 'c', 'c', 'g', 'f', 'e', 'd', 'c', 'c', 'c', 'c', 'd', 'e', 'e', 'd', 'e', 'f', 'g', 'cc', 'cc', 'cc', 'g', 'g', 'g', 'e', 'e', 'e', 'c', 'c', 'c', 'g', 'f', 'e', 'd', 'c']]
   }
 
   generateRows(mode){
@@ -14,8 +14,12 @@ class Song {
       }
     }
     else if (mode === 'arcade') {
+      let selectedSong = this.songSequences[Math.round((Math.random() * (this.songSequences.length - 1)))]
+      let j = 0
       for (let i = 0; i < 100; i++) {
-        this.rows.push(new Row())
+        if (j === selectedSong.length-1) j = 0;
+        this.rows.push(new Row(selectedSong[j]))
+        j++
       }
 
     }

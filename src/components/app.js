@@ -3,7 +3,7 @@ class App {
 	static startGame(e){
 
   	if (e.target.dataset.action === 'classic'){
-			Game.resetClock()
+			Game.resetClock(e.target.dataset.action)
 			Row.resetCounter()
 			let game = new Game('classic')
 			game.keyHandler = game.checkKey.bind(game)
@@ -11,30 +11,35 @@ class App {
 			game.fadeOutMenus()
 		}
 		else if (e.target.dataset.action === 'arcade'){
-			Game.resetClock()
+			Game.resetClock(e.target.dataset.action)
 			Row.resetCounter()
 			let game = new Game('arcade')
 			game.arcadeScore = 0
 			game.keyHandler = game.checkInput.bind(game)
 			window.addEventListener('keydown', game.keyHandler)
-
 			game.fadeOutMenus()
-			// game.incrementSpeed()
-
 		}
 		else if (e.target.dataset.action === 'high-scores'){
-			App.fetchHighScores('classic')
+			let mode = e.target.dataset.mode
+			App.fetchHighScores(mode)
 		}
 		else if (e.target.dataset.action === 'home-menu'){
-			let gameMenu = document.getElementById('game-menu')
-			gameMenu.innerHTML = Game.renderMenu()
-			TweenMax.to(gameMenu, .5, {autoAlpha:1})
+			App.homeMenu()
 		}
+	}
+
+	static homeMenu() {
+		let gameMenu = document.getElementById('game-menu')
+		gameMenu.innerHTML = Game.renderMenu()
+		TweenMax.to(gameMenu, .5, {autoAlpha:1})
 	}
 
 	static fetchHighScores(mode) {
 	    let adapter = new UsersAdapter()
-	    adapter.getHighScores(mode).then(highScoresJson => this.renderHighScores(highScoresJson))
+	    adapter.getHighScores(mode).catch((error) => {
+        App.homeMenu()
+        document.getElementById('error').innerHTML = "Server's not running"
+      }).then(highScoresJson => this.renderHighScores(highScoresJson))
 	}
 
 	static renderHighScores(json){

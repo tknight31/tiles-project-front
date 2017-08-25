@@ -72,6 +72,14 @@ body {
   font-weight: 700;
 }
 
+#game-menu .title {
+  font-family: 'Nixie One', cursive;
+  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 3px;
+  font-size: 3em;
+}
+
 .menu-button {
     font-size: 1.3em;
     border-radius: 10px;
@@ -126,6 +134,10 @@ body {
 }
 .correct {
   background-color: #78e678;
+}
+
+#error {
+  color: white;
 }
 
 #win-game, #lose-game {

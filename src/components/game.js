@@ -19,15 +19,21 @@ class Game {
   }
 
   static renderMenu() {
-    return `<h1>Piano Tiles</h1>
+    return `
+    <h3 id="error"></h3>
+    <h1 class="title">Piano Tiles</h1>
     <button data-action="classic" class="menu-button">Classic</button>
     <button data-action="arcade" class="menu-button">Arcade</button><br>
-    <button data-action="high-scores" class="menu-button">High Scores</button>`
+    <button data-action="high-scores" data-mode="classic" class="menu-button">High Scores</button>`
   }
 
-  static resetClock(){
+  static resetClock(mode){
     let timerEl = document.getElementById('timer')
-    timerEl.innerHTML = `0.000`
+    if (mode === 'classic') {
+      timerEl.innerHTML = `0.000`
+    } else {
+      timerEl.innerHTML = `0`
+    }
     TweenMax.to(timerEl, .6, {y: 0, color: 'red', fontSize: '2em', ease: 'Power2'})
   }
 
@@ -43,17 +49,12 @@ class Game {
   moveBlocks(timestamp) {
     if (this.running) {
       let nextBlock = this.copy[0]
-      // if (nextBlock.classList.contains('correct')) {
-      //   this.copy.shift()
-      // }
       if (!nextBlock.classList.contains('correct')) {
         if (nextBlock.getBoundingClientRect().top > 557) {
           this.loseArcade()
           clearInterval(this.setter)
         }
       }
-      // if (!this.start) this.start = timestamp;
-      // let progress = timestamp - this.start
       this.translateValue += this.speed
       this.gameWrapper.style.transform = `translate3d(0, ${this.translateValue}px, 0)`
       window.requestAnimationFrame(this.moveBlocks.bind(this))
@@ -82,7 +83,10 @@ class Game {
     document.getElementById('initialsForm').addEventListener('submit', function(e){
     let userInitials = document.getElementById('initialsInput').value.toUpperCase()
       e.preventDefault()
-      adapter.createUser(userInitials, timeNow, gameType).then(() => App.fetchHighScores(gameType))
+      adapter.createUser(userInitials, timeNow, gameType).catch((error) => {
+        App.homeMenu()
+        document.getElementById('error').innerHTML = "Server's not running"
+      }).then(() => App.fetchHighScores(gameType))
       TweenMax.to(winGameEl, .5, {autoAlpha:0})
     })
     TweenMax.to(timerEl, .6, {y: 100, color: 'white', fontSize: '3em', ease: 'Power2'})
@@ -97,7 +101,7 @@ class Game {
     let timerEl = document.getElementById('timer')
     loseGameEl.innerHTML = `<h1>You lost</h1>
     <button data-action="classic" class="menu-button">Play again</button>
-    <button data-action="high-scores" class="menu-button">High Scores</button><br>
+    <button data-action="high-scores" data-mode="classic" class="menu-button">High Scores</button><br>
     <button data-action="home-menu" class="menu-button">Main Menu</button>`
     TweenMax.to(loseGameEl, .5, {autoAlpha: 1, ease: 'Power2'})
     TweenMax.to(timerEl, .6, {y: 100, color: 'white', fontSize: '3em', ease: 'Power2'})
@@ -112,7 +116,7 @@ class Game {
    loseGameEl.innerHTML = `<h1>Game Over</h1><p>Please enter your initials</p>
    <form id="initialsForm"><input type="text" maxlength="3" id="initialsInput"></form>
    <button data-action="arcade" class="menu-button">Play again</button>
-   <button data-action="high-scores" class="menu-button">High Scores</button><br>
+   <button data-action="high-scores" data-mode="arcade" class="menu-button">High Scores</button><br>
    <button data-action="home-menu" class="menu-button">Main Menu</button>`
     TweenMax.to(loseGameEl, .5, {autoAlpha: 1, ease: 'Power2'})
    let adapter = this.adapter
@@ -121,7 +125,10 @@ class Game {
    document.getElementById('initialsForm').addEventListener('submit', function(e){
    let userInitials = document.getElementById('initialsInput').value.toUpperCase()
      e.preventDefault()
-     adapter.createUser(userInitials, arcadeScore, gameType).then(() => App.fetchHighScores(gameType))
+     adapter.createUser(userInitials, arcadeScore, gameType).catch((error) => {
+       App.homeMenu()
+       document.getElementById('error').innerHTML = "Server's not running"
+     }).then(() => App.fetchHighScores(gameType))
      TweenMax.to(loseGameEl, .5, {autoAlpha:0})
    })
    TweenMax.to(timerEl, .6, {y: 100, color: 'white', fontSize: '3em', ease: 'Power2'})
@@ -171,6 +178,7 @@ class Game {
         this.arcadeScore++
         this.renderScore()
         this.running = true
+        currentKey.playSound()
         activeBlock.classList.add("correct")
         this.copy.shift()
         this.currentRow++
