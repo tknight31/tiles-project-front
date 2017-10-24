@@ -1,7 +1,7 @@
 class UsersAdapter {
 
   constructor() {
-    this.baseURL = "http://tiles-game-back.herokuapp.com/api/v1/users"
+    this.baseURL = "https://tiles-game-back.herokuapp.com/api/v1/users"
   }
 
   createUser(name, score, mode) {
